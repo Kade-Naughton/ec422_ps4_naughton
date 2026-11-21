@@ -30,3 +30,11 @@ liquor |>
   gg_season(log_sales) +
   labs(title = "Season Plot of log(Liquor Store Sales)",
        x = "Month", y = "log(sales)")
+
+# fit ARIMA and ETS
+liquor_fit <- liquor |>
+  model(arima = ARIMA(log(sales)),
+        ets   = ETS(log(sales)))
+
+liquor_fit |> select(arima) |> report()
+liquor_fit |> select(ets) |> report()
