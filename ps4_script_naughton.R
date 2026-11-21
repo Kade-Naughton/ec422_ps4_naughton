@@ -86,3 +86,6 @@ liquor_combo_fc <- liquor_cv_fit |>
 
 liquor_combo_fc |>
   accuracy(liquor, measures = list(RMSE = RMSE, MAE = MAE))
+
+# error correlation
+cor(liquor_errs$arima, liquor_errs$ets)
