@@ -18,3 +18,15 @@ liquor <- liquor_raw |>
   filter(Month <= yearmonth("2019 Dec"))
 
 has_gaps(liquor)
+
+# season/sales plot
+liquor |>
+  autoplot(sales) +
+  labs(title = "U.S. Retail Sales at Beer, Wine, and Liquor Stores",
+       x = "Month", y = "Millions of dollars (NSA)")
+
+liquor |>
+  mutate(log_sales = log(sales)) |>
+  gg_season(log_sales) +
+  labs(title = "Season Plot of log(Liquor Store Sales)",
+       x = "Month", y = "log(sales)")
