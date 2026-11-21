@@ -46,3 +46,15 @@ liquor_fit |>
   select(arima) |>
   augment() |>
   features(.innov, ljung_box, lag = 24, dof = 6)
+
+# TS-CV
+liquor_cv <- liquor |>
+  stretch_tsibble(.init = 120, .step = 1) |>
+  filter(.id < max(.id))
+
+liquor_cv_fit <- liquor_cv |>
+  model(snaive = SNAIVE(sales),
+        ets    = ETS(log(sales)),
+        arima  = ARIMA(log(sales)))
+
+saveRDS(liquor_cv_fit, "results/liquor_cv_fit.rds")
