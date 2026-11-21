@@ -58,3 +58,10 @@ liquor_cv_fit <- liquor_cv |>
         arima  = ARIMA(log(sales)))
 
 saveRDS(liquor_cv_fit, "results/liquor_cv_fit.rds")
+
+# one-month-ahead forecasts and accuracy
+liquor_cv_fc <- liquor_cv_fit |>
+  forecast(h = 1)
+
+liquor_cv_fc |>
+  accuracy(liquor, measures = list(RMSE = RMSE, MAE = MAE))
