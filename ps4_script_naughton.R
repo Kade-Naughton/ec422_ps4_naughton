@@ -38,3 +38,11 @@ liquor_fit <- liquor |>
 
 liquor_fit |> select(arima) |> report()
 liquor_fit |> select(ets) |> report()
+
+# residual checks
+liquor_fit |> select(arima) |> gg_tsresiduals()
+
+liquor_fit |>
+  select(arima) |>
+  augment() |>
+  features(.innov, ljung_box, lag = 24, dof = 6)
