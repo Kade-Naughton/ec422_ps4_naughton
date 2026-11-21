@@ -161,3 +161,19 @@ bvar_cv <- function(lambda) {
 set.seed(422)
 fc_bvar_03 <- bvar_cv(0.3)
 saveRDS(fc_bvar_03, "results/fc_bvar_03.rds")
+
+# BVAR(4), lambda = 0.05 and results table
+set.seed(422)
+fc_bvar_005 <- bvar_cv(0.05)
+
+var_results <- tibble(
+  Variable = colnames(y),
+  `VAR(1)` = rmse_by_var(fc_var1),
+  `VAR(4)` = rmse_by_var(fc_var4),
+  `BVAR(4), lambda = 0.3` = rmse_by_var(fc_bvar_03),
+  `BVAR(4), lambda = 0.05` = rmse_by_var(fc_bvar_005)
+)
+
+saveRDS(var_results, "results/var_results.rds")
+
+var_results |> knitr::kable(digits = 3)
