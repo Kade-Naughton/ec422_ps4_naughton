@@ -65,3 +65,16 @@ liquor_cv_fc <- liquor_cv_fit |>
 
 liquor_cv_fc |>
   accuracy(liquor, measures = list(RMSE = RMSE, MAE = MAE))
+
+# DM tests
+liquor_errs <- liquor_cv_fc |>
+  as_tibble() |>
+  left_join(as_tibble(liquor) |> select(Month, actual = sales),
+            by = "Month") |>
+  mutate(e = actual - .mean) |>
+  select(Month, .model, e) |>
+  pivot_wider(names_from = .model, values_from = e)
+
+forecast::dm.test(liquor_errs$arima, liquor_errs$ets, h = 1, power = 2)
+
+forecast::dm.test(liquor_errs$arima, liquor_errs$snaive, h = 1, power = 2)
