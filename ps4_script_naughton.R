@@ -177,3 +177,14 @@ var_results <- tibble(
 saveRDS(var_results, "results/var_results.rds")
 
 var_results |> knitr::kable(digits = 3)
+
+# DM tests, VAR(4) vs BVAR(4) lambda = 0.3
+e_var4 <- actual[, "gdp"] - fc_var4[, 1]
+e_bvar <- actual[, "gdp"] - fc_bvar_03[, 1]
+
+forecast::dm.test(e_var4, e_bvar, h = 1, power = 2)
+
+e_var4 <- actual[, "infl"] - fc_var4[, 5]
+e_bvar <- actual[, "infl"] - fc_bvar_03[, 5]
+
+forecast::dm.test(e_var4, e_bvar, h = 1, power = 2)
